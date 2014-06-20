@@ -5,7 +5,9 @@ quote = function(str) {
 };
 
 compile = function(str) {
-  return new RegExp(quote(str).replace(/\\\*\\\*\//g, '(?:[^/]+/)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]'), 'm');
+  var re;
+  re = quote(str).replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/').replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]');
+  return new RegExp("^" + re + "$");
 };
 
 module.exports.tester = function(str) {

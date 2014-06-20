@@ -3,11 +3,12 @@ quote = (str) ->
         .replace(new RegExp('[.\\\\+*?\\[\\^\\]${}=!<>:\\-]', 'g'), '\\$&')
 
 compile = (str) -> 
-    return new RegExp(quote(str)
-        .replace(/\\\*\\\*\//g, '(?:[^/]+/)*')
+    re = quote(str)
+        .replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/')
+        .replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*')
         .replace(/\\\*/g, '[^/]*')
         .replace(/\\\?/g, '[^/]')
-    , 'm')
+    return new RegExp("^" + re + "$")
 
 module.exports.tester = (str) ->
     re = compile(str)
