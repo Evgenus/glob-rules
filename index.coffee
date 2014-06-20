@@ -2,17 +2,17 @@ quote = (str) ->
     return (str + '')
         .replace(new RegExp('[.\\\\+*?\\[\\^\\]${}=!<>:\\-]', 'g'), '\\$&')
 
-compile = new RegExp(
-    quote(str)
+compile = (str) -> 
+    return new RegExp(quote(str)
         .replace(/\\\*\\\*\//g, '(?:[^/]+/)*')
         .replace(/\\\*/g, '[^/]*')
         .replace(/\\\?/g, '[^/]')
     , 'm')
 
-module.export.tester = (str) ->
+module.exports.tester = (str) ->
     re = compile(str)
     return (p) -> return re.test(p)
 
-module.export.transformer = (str, pattern) ->
+module.exports.transformer = (str, pattern) ->
     re = compile(str)
     return (p) -> return input.replace(p, pattern)
