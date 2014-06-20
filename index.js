@@ -22,6 +22,6 @@ module.exports.transformer = function(str, pattern) {
   var re;
   re = compile(str);
   return function(p) {
-    return input.replace(p, pattern);
+    return p.replace(re, pattern);
   };
 };

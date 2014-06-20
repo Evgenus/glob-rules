@@ -16,4 +16,4 @@ module.exports.tester = (str) ->
 
 module.exports.transformer = (str, pattern) ->
     re = compile(str)
-    return (p) -> return input.replace(p, pattern)
+    return (p) -> return p.replace(re, pattern)

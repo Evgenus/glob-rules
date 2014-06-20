@@ -122,3 +122,15 @@ describe "test", ->
         expect("a/b/caaaab/b").to.match(tester)
         expect("a/b/caa/b").not.to.match(tester)
         expect("a/b/caa/b/cab/b").to.match(tester)
+
+describe "transform", ->
+    it '/(a*)/(**) -> /b/$1/c/$2', ->
+        transformer = glob_rules.transformer("/(a*)/(**)", "/b/$1/c/$2")
+        expect(transformer("/atest/x1/yy/zzz")).to.equal("/b/atest/c/x1/yy/zzz")
+        expect(transformer("/test/x1/yy/zzz")).to.equal("/test/x1/yy/zzz")
+
+    it '/(*)a(*)/ -> /$2b$1/', ->
+        transformer = glob_rules.transformer("/(*)a(*)/", "/$2b$1/")
+        expect(transformer("/1a2/")).to.equal("/2b1/")
+        expect(transformer("/111a22/")).to.equal("/22b111/")
+        expect(transformer("/111b22/")).to.equal("/111b22/")
