@@ -22,14 +22,14 @@ If [minimatch] works line [RegEx.test], then [glob-rules] works like [RegEx.repl
 var glob_rules = require("glob-rules");
 
 // bulding minifying
-var transformer = glob_rules.transformer("./src/(**).js", "./build/(**)-min.js");
-console.log(transformer("./src/app.js")) // ./build/app-min.js
-console.log(transformer("./src/module/func.js")) // ./build/module/func-min.js
+var transformer = glob_rules.transformer("./src/(**).js", "./build/$1-min.js");
+console.log(transformer("./src/app.js")); // ./build/app-min.js
+console.log(transformer("./src/module/func.js")); // ./build/module/func-min.js
 
 // compiling coffee-script
-var transformer = glob_rules.transformer("./src/(**).coffee", "./build/(**).js");
-console.log(transformer("./src/app.coffee")) // ./build/app.js
-console.log(transformer("./src/module/func.coffee")) // ./build/module/func.js
+var transformer = glob_rules.transformer("./src/(**).coffee", "./build/$1.js");
+console.log(transformer("./src/app.coffee")); // ./build/app.js
+console.log(transformer("./src/module/func.coffee")); // ./build/module/func.js
 ```
 
 ## Copyright and license
