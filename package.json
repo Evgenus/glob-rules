@@ -4,7 +4,8 @@
     "description": "Test and transform filesystem paths with glob-like rules",
     "main": "index.js",
     "scripts": {
-        "test": "mocha --require chai --compilers coffee:coffee-script/register --reporter spec"
+        "test": "mocha --require chai --compilers coffee:coffee-script/register --reporter spec",
+        "test:short": "mocha --require chai --compilers coffee:coffee-script/register --reporter tap"
     },
     "repository": {
         "type": "git",
