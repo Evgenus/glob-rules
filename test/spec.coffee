@@ -42,6 +42,34 @@ describe "test", ->
         expect("a/b.c/").not.to.match(tester)
         expect("/a/b.c/").to.match(tester)
 
+    it '/**/*', ->
+        tester = glob_rules.tester("/**/b*")
+        expect("").not.to.match(tester)
+        expect("/").not.to.match(tester)
+        expect("a").not.to.match(tester)
+        expect("/a").not.to.match(tester)
+        expect("a/").not.to.match(tester)
+        expect("a/b").not.to.match(tester)
+        expect("/a/b").to.match(tester)
+        expect("a/b.c").not.to.match(tester)
+        expect("/a/b.c").to.match(tester)
+        expect("a/b.c/").not.to.match(tester)
+        expect("/a/b.c/").not.to.match(tester)
+
+    it '**/*', ->
+        tester = glob_rules.tester("/**/b*")
+        expect("").not.to.match(tester)
+        expect("/").not.to.match(tester)
+        expect("a").not.to.match(tester)
+        expect("/a").not.to.match(tester)
+        expect("a/").not.to.match(tester)
+        expect("a/b").not.to.match(tester)
+        expect("/a/b").to.match(tester)
+        expect("a/b.c").not.to.match(tester)
+        expect("/a/b.c").to.match(tester)
+        expect("a/b.c/").not.to.match(tester)
+        expect("/a/b.c/").not.to.match(tester)
+
     it '**/b*', ->
         tester = glob_rules.tester("**/b*")
         expect("").not.to.match(tester)
