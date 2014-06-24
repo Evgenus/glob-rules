@@ -12,11 +12,11 @@ task "build", "compile all coffeescript files to javascript", ->
     compile("index.coffee", "index.js")
 
 task "test", "run unittests", ->
-  cmd = ["npm", "run", "test:short"].join(" ")
-  console.log(cmd)
-  exec cmd, (err, stdout, stderr) ->
-    throw err if err
-    console.log stdout + stderr
+    cmd = ["npm", "run", "test:short"].join(" ")
+    console.log(cmd)
+    exec cmd, (err, stdout, stderr) ->
+        throw err if err
+        console.log stdout + stderr
 
 task "sbuild", "build routine for sublime", ->
     invoke 'build'
