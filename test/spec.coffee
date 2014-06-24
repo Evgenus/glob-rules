@@ -12,6 +12,10 @@ chai.use (chai, util) ->
             'expected #{this} to not be matched'
             )
 
+    chai.Assertion.addMethod 'properties', (expectedPropertiesObj) ->
+        for own key, func of expectedPropertiesObj
+            func.call(new chai.Assertion(this._obj).property(key))
+
 describe 'Mocha self test', ->
     it 'tests are working', ->
         expect(true).to.be.true.and.not.to.be.false
@@ -151,6 +155,10 @@ describe "test", ->
         expect("a/b/caa/b").not.to.match(tester)
         expect("a/b/caa/b/cab/b").to.match(tester)
 
+    it "some realistic examples", ->
+        tester = glob_rules.tester("./src/builder/(**/*).coffee")
+        expect("./src/builder/index.coffee").to.match(tester)
+
 describe "transform", ->
     it '/(a*)/(**) -> /b/$1/c/$2', ->
         transformer = glob_rules.transformer("/(a*)/(**)", "/b/$1/c/$2")
@@ -162,3 +170,35 @@ describe "transform", ->
         expect(transformer("/1a2/")).to.equal("/2b1/")
         expect(transformer("/111a22/")).to.equal("/22b111/")
         expect(transformer("/111b22/")).to.equal("/111b22/")
+
+describe "matcher", ->
+    it '/(a*)/(**) -> /b/$1/c/$2', ->
+        matcher = glob_rules.matcher("/(a*)/(**)")
+        expect(matcher("/test/x1/yy/zzz")).to.be.null
+        expect(matcher("/atest/x1/yy/zzz"))
+            .to.be.an("Array")
+            .with.length(3)
+            .with.properties
+                0: -> this.equal("/atest/x1/yy/zzz")
+                1: -> this.equal("atest")
+                2: -> this.equal("x1/yy/zzz")
+
+    it '/(*)a(*)/ -> /$2b$1/', ->
+        matcher = glob_rules.matcher("/(*)a(*)/")
+        expect(matcher("/1a2/"))
+            .to.be.an("Array")
+            .with.length(3)
+            .with.properties
+                0: -> this.equal("/1a2/")
+                1: -> this.equal("1")
+                2: -> this.equal("2")
+
+        expect(matcher("/111a22/"))
+            .to.be.an("Array")
+            .with.length(3)
+            .with.properties
+                0: -> this.equal("/111a22/")
+                1: -> this.equal("111")
+                2: -> this.equal("22")
+
+        expect(matcher("/111b22/")).to.be.null

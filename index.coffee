@@ -4,15 +4,21 @@ quote = (str) ->
 
 compile = (str) -> 
     re = quote(str)
-        .replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/')
-        .replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*')
-        .replace(/\\\*/g, '[^/]*')
-        .replace(/\\\?/g, '[^/]')
+        .replace(/\\\*\\\*\/\\\*\\\*/g, '[^/]*(?:/[^/]*)*')     # **/**
+        .replace(/\\\*\\\*\/\\\*/g, '[^/]*(?:/[^/]*)*')         # **/*
+        .replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/')            # **/
+        .replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*')               # **
+        .replace(/\\\*/g, '[^/]*')                              # *
+        .replace(/\\\?/g, '[^/]')                               # ?
     return new RegExp("^" + re + "$")
 
 module.exports.tester = (str) ->
     re = compile(str)
     return (p) -> return re.test(p)
+
+module.exports.matcher = (str) ->
+    re = compile(str)
+    return (p) -> return p.match(re)
 
 module.exports.transformer = (str, pattern) ->
     re = compile(str)

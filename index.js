@@ -6,7 +6,7 @@ quote = function(str) {
 
 compile = function(str) {
   var re;
-  re = quote(str).replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/').replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]');
+  re = quote(str).replace(/\\\*\\\*\/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*\\\*\/\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/').replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]');
   return new RegExp("^" + re + "$");
 };
 
@@ -15,6 +15,14 @@ module.exports.tester = function(str) {
   re = compile(str);
   return function(p) {
     return re.test(p);
+  };
+};
+
+module.exports.matcher = function(str) {
+  var re;
+  re = compile(str);
+  return function(p) {
+    return p.match(re);
   };
 };
 
