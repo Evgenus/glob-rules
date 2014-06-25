@@ -155,9 +155,14 @@ describe "test", ->
         expect("a/b/caa/b").not.to.match(tester)
         expect("a/b/caa/b/cab/b").to.match(tester)
 
-    it "some realistic examples", ->
-        tester = glob_rules.tester("./src/builder/(**/*).coffee")
+    it "realistic example 1", ->
+        tester = glob_rules.tester("./src/builder/**/*.coffee")
         expect("./src/builder/index.coffee").to.match(tester)
+
+    it "realistic example 2", ->
+        tester = glob_rules.tester("./**/app.js")
+        expect("./app.js").to.match(tester)
+        expect("./some/where/app.js").to.match(tester)
 
 describe "transform", ->
     it '/(a*)/(**) -> /b/$1/c/$2', ->
