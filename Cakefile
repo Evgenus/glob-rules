@@ -15,7 +15,6 @@ task "test", "run unittests", ->
     cmd = ["npm", "run", "test:short"].join(" ")
     console.log(cmd)
     exec cmd, (err, stdout, stderr) ->
-        throw err if err
         console.log stdout + stderr
 
 task "sbuild", "build routine for sublime", ->
