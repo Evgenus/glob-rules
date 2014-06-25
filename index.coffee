@@ -18,7 +18,10 @@ module.exports.tester = (str) ->
 
 module.exports.matcher = (str) ->
     re = compile(str)
-    return (p) -> return p.match(re)
+    return (p) -> 
+        result = p.match(re)
+        return [].concat(result) if result?
+        return null 
 
 module.exports.transformer = (str, pattern) ->
     re = compile(str)

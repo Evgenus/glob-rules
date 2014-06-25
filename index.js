@@ -22,7 +22,12 @@ module.exports.matcher = function(str) {
   var re;
   re = compile(str);
   return function(p) {
-    return p.match(re);
+    var result;
+    result = p.match(re);
+    if (result != null) {
+      return [].concat(result);
+    }
+    return null;
   };
 };
 
