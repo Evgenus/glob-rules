@@ -6,7 +6,7 @@ quote = function(str) {
 
 compile = function(str) {
   var re;
-  re = quote(str).replace(/\\\*\\\*\/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*\\\*\/\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*\\\*\//g, '[^/]*(?:/[^/]*)*/').replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]');
+  re = quote(str).replace(/^\\\*\\\*\//g, '([^/]*(?:/[^/]+)*/)?').replace(/\\\*\\\*\//g, '([^/]+(?:/[^/]+)*/)?').replace(/\\\*\\\*/g, '[^/]*(?:/[^/]*)*').replace(/\\\*/g, '[^/]*').replace(/\\\?/g, '[^/]');
   return new RegExp("^" + re + "$");
 };
 
