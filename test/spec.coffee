@@ -164,6 +164,21 @@ describe "test", ->
         expect("./app.js").to.match(tester)
         expect("./some/where/app.js").to.match(tester)
 
+    it "realistic example 3", ->
+        tester = glob_rules.tester("**/*.js")
+        expect("/app.js").to.match(tester)
+        expect("test/app.js").to.match(tester)
+        expect("/some/where/app.js").to.match(tester)
+
+    it "realistic example 4", ->
+        tester = glob_rules.tester("/**/*.js")
+        expect("/app.js").to.match(tester)
+        expect("/test/app.js").to.match(tester)
+        expect("/some/where/app.js").to.match(tester)
+        expect("app.js").not.to.match(tester)
+        expect("test/app.js").not.to.match(tester)
+        expect("some/where/app.js").not.to.match(tester)
+
 describe "transform", ->
     it '/(a*)/(**) -> /b/$1/c/$2', ->
         transformer = glob_rules.transformer("/(a*)/(**)", "/b/$1/c/$2")
