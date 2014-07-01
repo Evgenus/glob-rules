@@ -1,6 +1,6 @@
 {
     "name": "glob-rules",
-    "version": "0.0.6",
+    "version": "0.1.0",
     "description": "Test and transform filesystem paths with glob-like rules",
     "main": "index.js",
     "scripts": {
