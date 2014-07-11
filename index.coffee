@@ -13,7 +13,8 @@ compile = (str) ->
 
 module.exports.tester = (str) ->
     re = compile(str)
-    return (p) -> return re.test(p)
+    return (p) -> 
+        return re.test(p)
 
 module.exports.matcher = (str) ->
     re = compile(str)
@@ -24,4 +25,10 @@ module.exports.matcher = (str) ->
 
 module.exports.transformer = (str, pattern) ->
     re = compile(str)
-    return (p) -> return p.replace(re, pattern)
+    return (p) -> 
+        parts = p.match(re)
+        return p if parts is null
+        result = pattern.replace /\$([1-9][0-9]*)/g, (_, snum) ->
+            num = parseInt(snum)
+            return parts[num]
+        return result

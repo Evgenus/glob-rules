@@ -35,6 +35,16 @@ module.exports.transformer = function(str, pattern) {
   var re;
   re = compile(str);
   return function(p) {
-    return p.replace(re, pattern);
+    var parts, result;
+    parts = p.match(re);
+    if (parts === null) {
+      return p;
+    }
+    result = pattern.replace(/\$([1-9][0-9]*)/g, function(_, snum) {
+      var num;
+      num = parseInt(snum);
+      return parts[num];
+    });
+    return result;
   };
 };
