@@ -23,7 +23,7 @@ module.exports.matcher = (str) ->
         return [].concat(result) if result?
         return null 
 
-module.exports.transformer = (str, pattern) ->
+module.exports.transformer = (str, pattern, callback) ->
     re = compile(str)
     return (p) -> 
         parts = p.match(re)
@@ -31,4 +31,9 @@ module.exports.transformer = (str, pattern) ->
         result = pattern.replace /\$([1-9][0-9]*)/g, (_, snum) ->
             num = parseInt(snum)
             return parts[num]
+        result = result.replace /\{([1-9][0-9]*)\}/g, (_, snum) ->
+            num = parseInt(snum)
+            return parts[num]
+        result = result.replace /\{([a-zA-Z_][0-9a-zA-Z_]*)\}/g, (_, id) ->
+            return callback(id, parts)
         return result

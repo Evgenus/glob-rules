@@ -31,7 +31,7 @@ module.exports.matcher = function(str) {
   };
 };
 
-module.exports.transformer = function(str, pattern) {
+module.exports.transformer = function(str, pattern, callback) {
   var re;
   re = compile(str);
   return function(p) {
@@ -44,6 +44,14 @@ module.exports.transformer = function(str, pattern) {
       var num;
       num = parseInt(snum);
       return parts[num];
+    });
+    result = result.replace(/\{([1-9][0-9]*)\}/g, function(_, snum) {
+      var num;
+      num = parseInt(snum);
+      return parts[num];
+    });
+    result = result.replace(/\{([a-zA-Z_][0-9a-zA-Z_]*)\}/g, function(_, id) {
+      return callback(id, parts);
     });
     return result;
   };
