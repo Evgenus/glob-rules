@@ -185,10 +185,31 @@ describe "transform", ->
         expect(transformer("/atest/x1/yy/zzz")).to.equal("/b/atest/c/x1/yy/zzz")
         expect(transformer("/test/x1/yy/zzz")).to.equal("/test/x1/yy/zzz")
 
+    it '/(a*)/(**) -> /b/{1}/c/{2}', ->
+        transformer = glob_rules.transformer("/(a*)/(**)", "/b/{1}/c/{2}")
+        expect(transformer("/atest/x1/yy/zzz")).to.equal("/b/atest/c/x1/yy/zzz")
+        expect(transformer("/test/x1/yy/zzz")).to.equal("/test/x1/yy/zzz")
+
     it '/(*)a(*)/ -> /$2b$1/', ->
         transformer = glob_rules.transformer("/(*)a(*)/", "/$2b$1/")
         expect(transformer("/1a2/")).to.equal("/2b1/")
         expect(transformer("/111a22/")).to.equal("/22b111/")
+        expect(transformer("/111b22/")).to.equal("/111b22/")
+
+    it '/(*)a(*)/ -> /{2}b{1}/', ->
+        transformer = glob_rules.transformer("/(*)a(*)/", "/{2}b{1}/")
+        expect(transformer("/1a2/")).to.equal("/2b1/")
+        expect(transformer("/111a22/")).to.equal("/22b111/")
+        expect(transformer("/111b22/")).to.equal("/111b22/")
+
+    it '/a(*)/ -> /b{t}/', ->
+        delegate = (name, match) ->
+            if name == "t"
+                return match[1] + match[1]
+            return "t"
+        transformer = glob_rules.transformer("/a(*)/", "/b{t}/", delegate)
+        expect(transformer("/a2/")).to.equal("/b22/")
+        expect(transformer("/a22/")).to.equal("/b2222/")
         expect(transformer("/111b22/")).to.equal("/111b22/")
 
 describe "matcher", ->
