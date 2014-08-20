@@ -7,7 +7,7 @@
 
 Test or transform filesystem paths with glob-like rules
 
-If [minimatch] works line [RegEx.test], then [glob-rules] works like [RegEx.replace]. If you don't need replacing parts of matched filesystem path, or you need feature rich matcher, then use [minimatch]. This library is for copy/move/transfrom functionality, like inside building scripts. 
+If [minimatch] works like [RegEx.test], then [glob-rules] works like [RegEx.replace]. If you don't need replacing parts of matched filesystem path, or you need feature rich matcher, then use [minimatch]. This library is for copy/move/transfrom functionality, like inside building scripts. 
 
 ##Features
 
